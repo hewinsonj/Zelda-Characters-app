@@ -2,7 +2,7 @@
 // Our Models
 ////////////////////////////////////////////////
 // pull schema and model from mongoose
-const mongoose = require("mongoose")
+const mongoose = require('./connection')
 
 const { Schema, model } = mongoose
 
