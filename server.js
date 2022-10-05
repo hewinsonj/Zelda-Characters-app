@@ -8,34 +8,8 @@ const path = require("path") // import path module
 
 const ZeldaCharRouter = require('./controllers/zeldaControllers')
 const UserRouter = require('./controllers/userControllers')
+const CommentRouter = require('./controllers/commentControllers')
 const middleware = require('./utils/middleware')
-
-
-////////////////////////////////////////////
-////////////// Import our models
-////////////////////////////////////
-// const ZeldaChar = require('./models/zeldaChar')
-// const { error } = require("console")
-
-/////////////////////////////////////////////
-// Database Connection
-/////////////////////////////////////////////
-// Setup inputs for our connect function
-// const DATABASE_URL = process.env.DATABASE_URL
-// const CONFIG = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// }
-
-// Establish Connection
-// mongoose.connect(DATABASE_URL, CONFIG)
-
-// // Events for when connection opens/disconnects/errors
-// mongoose.connection
-//   .on("open", () => console.log("Connected to Mongoose"))
-//   .on("close", () => console.log("Disconnected from Mongoose"))
-//   .on("error", (error) => console.log("An error occured : /n", error))
-
 
 /////////////////////////////////////////////////
 // Create our Express Application Object Bind Liquid Templating Engine
@@ -53,7 +27,7 @@ const app = express()
 middleware(app)
 
 ////////////////////////////////////////////
-// Routes
+// Home Route
 ////////////////////////////////////////////
 app.get("/", (req, res) => {
     res.send("your server is running... better catch it.")
@@ -66,6 +40,7 @@ app.get("/", (req, res) => {
 // app.use, when we register a route, needs two arguments
 // the first, is the base url endpoint, the second is the file to use
 app.use('/zeldaChar', ZeldaCharRouter)
+app.use('/comments', CommentRouter)
 app.use('/users', UserRouter)
 
 

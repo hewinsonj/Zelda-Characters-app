@@ -24,8 +24,8 @@ router.post('/signup', async (req, res) => {
     )
     console.log('req.body after hash', req.body)
 
-        // create a new user
-        User.create(req.body)
+    // create a new user
+    User.create(req.body)
         // if successful, console log the user(for now)
         .then(user => {
             console.log(user)
@@ -77,7 +77,6 @@ router.post('/login', async (req, res) => {
             res.json(err)
         })
 })
-
 
 // a route for log out 
 router.delete('/logout', (req, res) => {
