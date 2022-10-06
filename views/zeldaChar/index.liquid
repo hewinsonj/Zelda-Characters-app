@@ -1,0 +1,28 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+    <div>
+        <h2 class="display-6">All Zelda Chars</h2>
+        <div class="row">
+            {% for zeldaChar in zeldaChar %}
+                <div class="card" style="background-color: white">
+                    <h5 class="card-header">{{ zeldaChar.name}}</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {% if zeldaChar.allyToLink %}
+                                 Ally
+                            {% else %}
+                                Enemy
+                            {% endif %}
+
+                            
+                        </h5>
+                        <p class="card-text">The debut of {{ zeldaChar.name }} is {{ zeldaChar.gameDebut }}</p>
+                        <a class="btn btn-info" href="/zeldaChar/{{zeldaChar.id}}">
+                            View {{ zeldaChar.name }}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {%endblock%}

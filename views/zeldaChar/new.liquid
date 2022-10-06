@@ -1,0 +1,37 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+
+    <div class="container-sm">
+        <form action="/zeldaChar" method="POST">
+            <fieldset>
+                <legend>Create New Characters</legend>
+                <label class="form-label">Name: </label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="name"
+                    placeholder="enter the name of the character"
+                >
+                <label class="form-label">Debut Game: </label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="gameDebut"
+                    placeholder="what game did they first appear?"
+                >
+                <label class="form-label">Ally to Link: </label>
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="allyToLink"
+                >
+            </fieldset>
+            <input
+                class="btn btn-success"
+                type="submit"
+                value="Create New ZeldaChar"
+            >
+        </form>
+    </div>
+
+{% endblock %}
