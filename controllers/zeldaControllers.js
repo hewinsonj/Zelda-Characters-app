@@ -27,7 +27,7 @@ router.get("/", (req, res) => {
             //this is the preferred method for API's
             res.render('zeldaChar/index', { zeldaChar, username, loggedIn, userId })
         })
-        .catch(err => console.log(err))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
 // GET for new fruit
@@ -58,11 +58,14 @@ router.post("/", (req, res) => {
     // we'll use the mongoose model method `create` to make a new fruit
     ZeldaChar.create(req.body)
         .then(zeldaChar => {
+            const username = req.session.username
+            const loggedIn = req.session.loggedIn
+            const userId = req.session.userId
             // send the user a '201 created' response, along with the new fruit
             // res.status(201).json({ fruit: fruit.toObject() })
             res.redirect('/zeldaChar')
         })
-        .catch(error => console.log(error))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
 // GET request
@@ -80,37 +83,69 @@ router.get('/mine', (req, res) => {
             res.render('zeldaChar/index', { zeldaChar, username, loggedIn, userId })
         })
     // or throw an error if there is one
-        .catch(error => res.json(error))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
 
 // GET request to show the update page
 router.get("/edit/:id", (req, res) => {
-    // const username = req.session.username
-    // const loggedIn = req.session.loggedIn
-    // const userId = req.session.userId
-    res.send('edit page')
+    const username = req.session.username
+    const loggedIn = req.session.loggedIn
+    const userId = req.session.userId
+
+    const zeldaCharId = req.params.id
+
+    ZeldaChar.findById(zeldaCharId)
+        // render the edit form if there is a fruit
+        .then(zeldaChar => {
+            res.render('zeldaChar/edit', { zeldaChar, username, loggedIn, userId })
+        })
+        // redirect if there isn't
+        .catch(err => {
+            res.redirect(`/error?error=${err}`)
+        })
+    // res.send('edit page')
 })
 
 
-//////PUT Request
+// PUT request
 // update route -> updates a specific fruit
 router.put("/:id", (req, res) => {
-    // console.log("I hit the update route", req.params.id)
+    console.log("req.body initially", req.body)
     const id = req.params.id
+
+    req.body.allyToLink = req.body.allyToLink === 'on' ? true : false
+    console.log('req.body after changing checkbox value', req.body)
     ZeldaChar.findById(id)
         .then(zeldaChar => {
             if (zeldaChar.owner == req.session.userId) {
-                res.sendStatus(204)
+                // must return the results of this query
                 return zeldaChar.updateOne(req.body)
             } else {
                 res.sendStatus(401)
             }
         })
-        .catch(error => res.json(error))
+        .then(() => {
+            // console.log('returned from update promise', data)
+            res.redirect(`/zeldaChar/${id}`)
+        })
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
+router.delete('/:id', (req, res) => {
+    // get the fruit id
+    const zeldaCharId = req.params.id
 
+    // delete and REDIRECT
+    ZeldaChar.findByIdAndRemove(zeldaCharId)
+        .then(zeldaChar => {
+            // if the delete is successful, send the user back to the index page
+            res.redirect('/zeldaChar')
+        })
+        .catch(err => {
+            res.redirect(`/error?error=${err}`)
+        })
+})
 
   //// SHOW request
 
@@ -132,7 +167,7 @@ router.get("/:id", (req, res) => {
             const userId = req.session.userId
             res.render('zeldaChar/show', { zeldaChar, username, loggedIn, userId })
         })
-        .catch(err => console.log(err))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
 // // DELETE request
@@ -158,21 +193,6 @@ router.get("/:id", (req, res) => {
 //         .catch(err => res.json(err))
 // })
 
-
-router.delete('/:id', (req, res) => {
-    // get the fruit id
-    const zeldaCharId = req.params.id
-
-    // delete and REDIRECT
-    ZeldaChar.findByIdAndRemove(zeldaCharId)
-        .then(zeldaChar => {
-            // if the delete is successful, send the user back to the index page
-            res.redirect('/zeldaChar')
-        })
-        .catch(error => {
-            res.json({ error })
-        })
-})
 
 //////////////////////////////////////////
 // Export the Router

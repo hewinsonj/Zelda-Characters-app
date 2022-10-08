@@ -1,0 +1,45 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+
+    <div class="container-sm">
+        {%- comment -%} change the action {%- endcomment -%}
+        {%- comment -%} add values to input fields {%- endcomment -%}
+        {%- comment -%} add a back button {%- endcomment -%}
+        <form action="/zeldaChar/{{zeldaChar.id}}?_method=PUT" method="POST">
+            <fieldset>
+                <legend>Edit {{zeldaChar.name}}</legend>
+                <label class="form-label">Name: </label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="name"
+                    placeholder="Enter the name of the character"
+                    value="{{ zeldaChar.name }}"
+                >
+                <label class="form-label">Debut Game: </label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="gameDebut"
+                    placeholder="What game did this character first appear?"
+                    value="{{ zeldaChar.gameDebut }}"
+                >
+                <label class="form-label">Ally to Link: </label>
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="allyToLink"
+                    {% if zeldaChar.allyToLink %}
+                        checked
+                    {% endif %}
+                >
+            </fieldset>
+            <input
+                class="btn btn-success"
+                type="submit"
+                value="Edit {{zeldaChar.name}}"
+            >
+        </form>
+    </div>
+
+{% endblock %}

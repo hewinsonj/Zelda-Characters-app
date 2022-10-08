@@ -35,11 +35,11 @@ router.post("/:zeldaCharId", (req, res) => {
             return zeldaChar.save()
         })
         .then(zeldaChar => {
-            res.status(200).json({ zeldaChar: zeldaChar })
+            res.redirect(`/zeldaChar/${zeldaChar.id}`)
         })
         // do something else if it doesn't work
         //  --> send some kind of error depending on what went wrong
-        .catch(error => console.log(error))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
 
@@ -64,19 +64,21 @@ router.delete('/delete/:zeldaCharId/:commId', (req, res) => {
                     // find some way to remove the comment
                     // here's another built in method
                     theComment.remove()
-
-                    res.sendStatus(204)
+                    zeldaChar.save()
+                    res.redirect(`/zeldaChar/${zeldaChar.id}`)
                     // return the saved fruit
-                    return zeldaChar.save()
+                    //return zeldaChar.save()
                 } else {
-                    res.sendStatus(401)
+                    const err = 'you%20are%20not%20authorized%20for%20this%20action'
+                    res.redirect(`/error?error=${err}`)
                 }
             } else {
-                res.sendStatus(401)
+                const err = 'you%20are%20not%20authorized%20for%20this%20action'
+                res.redirect(`/error?error=${err}`)
             }
         })
         // send an error if error
-        .catch(error => console.log(error))
+        .catch(err => res.redirect(`/error?error=${err}`))
 
 })
 

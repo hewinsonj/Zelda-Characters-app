@@ -10,7 +10,7 @@
                     Enemy
                 {% endif %}
             </h4>
-            <h4>The debut game for this character is: {{zeldaChar.gameDebut}}</h4>
+            <h4>The game this character first appeared in is: {{zeldaChar.gameDebut}}</h4>
             {% if zeldaChar.owner == userId %}
                 <div class="btn-group">
                     {%- comment -%} first button will send us to the edit page {%- endcomment -%}
@@ -22,5 +22,36 @@
                 </div>
             {% endif %}
         </article>
+        <hr>
+        <h4>Comments</h4>
+        <hr>
+        {% if loggedIn %}
+            <div class="col-md-6">
+                <form action="/comments/{{zeldaChar.id}}" method="POST">
+                    <fieldset>
+                        <legend>Add Comment</legend>
+                        <label class="form-label">comment:</label>
+                        <input class="form-control mb-2" type="text" placeholder="enter your comment..." name="note" required>
+                    </fieldset>
+                    <input class="btn btn-success" type="submit" value="add comment">
+                </form>
+            </div>
+        {% else %}
+            <div class="col-md-6">
+                <small>If you'd like to leave a comment, please log in...</small>
+            </div>
+        {% endif %}
+        <hr>
+        {% if zeldaChar.comments.length > 0%}
+            <div class="container-sm justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    {% for comment in zeldaChar.comments %}
+                        {% render '../comment.liquid', comment: comment, userId: userId, zeldaChar: zeldaChar %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <small>no comments as of yet...</small>
+        {% endif %}
     </div>
 {% endblock %}
