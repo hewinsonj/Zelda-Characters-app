@@ -3,7 +3,6 @@
 /////////////////////////////////////////////
 const express = require("express") // import express
 const ZeldaChar = require("../models/zeldaChar")
-
 /////////////////////////////////////////
 // Create Route
 /////////////////////////////////////////
@@ -25,7 +24,7 @@ router.get("/", (req, res) => {
             //this is fine for initial testing
             //res.send(fruits)
             //this is the preferred method for API's
-            res.render('zeldaChar/index', { zeldaChar, username, loggedIn, userId })
+            res.render('zeldaChar/index', { zeldaChar, username, loggedIn, userId})
         })
         .catch(err => res.redirect(`/error?error=${err}`))
 })

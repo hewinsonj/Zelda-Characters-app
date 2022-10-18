@@ -13,14 +13,14 @@ const db = mongoose.connection
 
 db.on('open', () => {
     const startChars = [
-        { name: "Zelda", gameDebut: "The Legend of Zelda", allyToLink: true },
-        { name: "Impa", gameDebut: "The Legend of Zelda", allyToLink: true },
-        { name: "Ganon", gameDebut: "The Legend of Zelda", allyToLink: false },
-        { name: "Saria", gameDebut: "Ocarina of Time", allyToLink: true },
-        { name: "Skull Kid", gameDebut: "Majora's Mask", allyToLink: false }
+        { name: "Tallon", gameDebut: "Ocarina of Time", allyToLink: true },
+        { name: "Tingle", gameDebut: "Majora's Mask", allyToLink: true },
+        { name: "Great Fairy", gameDebut: "The Legend of Zelda", allyToLink: true },
+        { name: "The Phonogram Man", gameDebut: "Ocarina of Time", allyToLink: true },
+        { name: "Tatl", gameDebut: "Majora's Mask", allyToLink: true }
       ]
       // Delete every fruit in DB
-      ZeldaChar.deleteMany({})
+      ZeldaChar.deleteMany({owner: null})
       .then(deletedChars => {
         console.log('this is what .deleteMany returns', deletedChars)
 

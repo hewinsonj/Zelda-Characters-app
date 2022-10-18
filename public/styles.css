@@ -1,8 +1,14 @@
 body {
-    background-color: lightskyblue;
+    background-color: lightgreen;
+    color: black;
 }
 
 .card {
     margin: 5px;
-    background-color: bisque;
+    background-color: lightseagreen;
+    border-radius: 2%;
+}
+
+.toast {
+    autohide: false;
 }
